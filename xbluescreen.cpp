@@ -29,7 +29,7 @@ void defineBText(){
 	//
 	// Technical information:
 	//
-    // *** STOP: 0x0000008E (0xC0000005,0x80545D06,0xF019FBF0,0x00000000)
+	// *** STOP: 0x0000008E (0xC0000005,0x80545D06,0xF019FBF0,0x00000000)
 	//
 	//
 	// Beginning dump of physical memory
@@ -162,8 +162,7 @@ BOOL InitApplication(HINSTANCE hinstance)
     // that describe the main window.  
   
     wcx.cbSize = sizeof(wcx);          // size of structure  
-    wcx.style = CS_HREDRAW |  
-        CS_VREDRAW;                    // redraw if size changes  
+    wcx.style = CS_HREDRAW;
     wcx.lpfnWndProc = MainWndProc;     // points to window procedure  
     wcx.cbClsExtra = 0;                // no extra class memory  
     wcx.cbWndExtra = 0;                // no extra window memory  
@@ -173,7 +172,7 @@ BOOL InitApplication(HINSTANCE hinstance)
     wcx.lpszMenuName =  "Windows";    // name of menu resource  
     wcx.lpszClassName = "xhwin";  // name of window class  
 	wcx.hIcon = LoadIcon(NULL,  
-        IDI_APPLICATION);              // predefined app. icon
+		IDI_APPLICATION);              // predefined app. icon
 	wcx.hIconSm = (HICON)LoadImage(hinstance, MAKEINTRESOURCE(5), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);  
   
     // Register the window class.  
