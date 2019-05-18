@@ -114,7 +114,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		// TextOut(hDC2, 0, 30, blueText2, strlen(blueText2));
 		EndPaint( hwnd, &ps ) ;
 		stageComplete = true;
-		Sleep(2000);
+		Sleep(4000);
 		SendMessage(hWnd, WM_CLOSE, NULL, NULL);
 		return 0;
 	}
