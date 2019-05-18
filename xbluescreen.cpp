@@ -112,9 +112,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		TextOut(hDC2, 0, 10, blueText[0], strlen(blueText[0]));
 		for (int i = 1; i < (sizeof(blueText) / sizeof(blueText[i]) - 1); i++){
 			TextOut(hDC2, 0, i * 20 + (i == 1 ? 10 : 0), blueText[i], strlen(blueText[i]));
-			Sleep(10);
+			Sleep(50);
 		}
-		for (int i = 0; i < 90; i++){
+		for (int i = 0; i < 90; i++){ // toby-ish hardcode
 			DoEvents();
 		}
 		TextOut(hDC2, 0, 23 * 20, blueText[23], strlen(blueText[23]));
@@ -123,7 +123,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		}
 		for (int i = 0; i < (sizeof(blueTextAfterDump) / sizeof(blueTextAfterDump[i])); i++){
 			TextOut(hDC2, 0, i * 20 + 24 * 20, blueTextAfterDump[i], strlen(blueTextAfterDump[i]));
-			Sleep(10);
+			Sleep(50);
 		}
 		// TextOut(hDC2, 0, 30, blueText2, strlen(blueText2));
 		EndPaint( hwnd, &ps ) ;
