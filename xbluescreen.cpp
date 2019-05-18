@@ -1,3 +1,5 @@
+// pure c++ joke program created by lwys
+
 #include <Windows.h>
 
 HINSTANCE hinst; 
