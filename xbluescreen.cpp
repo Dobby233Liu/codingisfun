@@ -10,6 +10,16 @@ LPCSTR blueText[24];
 LPCSTR blueTextAfterDump[3];
 bool stageComplete;
 
+void DoEvents()
+{
+	MSG msg;
+	while(PeekMessage(&msg,NULL,0,0,PM_REMOVE))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	} 
+}
+
 void defineBText(){
 	// A problem has been detected and Windows has been shut down to prevent damage 
 	// to your computer.
@@ -104,9 +114,13 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 			TextOut(hDC2, 0, i * 20 + (i == 1 ? 10 : 0), blueText[i], strlen(blueText[i]));
 			Sleep(10);
 		}
-		Sleep(100 - 10);
+		for (int i = 0; i < 90; i++){
+			DoEvents();
+		}
 		TextOut(hDC2, 0, 23 * 20, blueText[23], strlen(blueText[23]));
-		Sleep(2000);
+		for (int i = 0; i < 2000 * 10000; i++){
+			DoEvents();
+		}
 		for (int i = 0; i < (sizeof(blueTextAfterDump) / sizeof(blueTextAfterDump[i])); i++){
 			TextOut(hDC2, 0, i * 20 + 24 * 20, blueTextAfterDump[i], strlen(blueTextAfterDump[i]));
 			Sleep(10);
@@ -114,7 +128,9 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		// TextOut(hDC2, 0, 30, blueText2, strlen(blueText2));
 		EndPaint( hwnd, &ps ) ;
 		stageComplete = true;
-		Sleep(4000);
+		for (int i = 0; i < 4000 * 10000; i++){
+			DoEvents();
+		}
 		SendMessage(hWnd, WM_CLOSE, NULL, NULL);
 		return 0;
 	}
