@@ -1,3 +1,7 @@
 *.exe
 *.zip
 *.dll
+libwww/*
+libwww/
+simplembr/
+expat/
