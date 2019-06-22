@@ -2,7 +2,7 @@
 #include<stdlib.h>
 int main(int argc, char *argv[]){
 	if(argc <= 1){
-		printf("error\n");
+		printf("error");
 		getchar();
 		return 1;
 	}
@@ -18,19 +18,19 @@ int main(int argc, char *argv[]){
 			string = "false";
 			break;
 		default:
-			printf("?????\n");
-			system("pause");
+			printf("?????");
+			getchar();
 			break;
 	}
-	FILE *f = fopen(argv[1], "w");
+	FILE *f = _fsopen(argv[0], "w", 0x40);
 	if (f == NULL){
-		printf("error\n");
-		system("pause");
+		printf("error");
+		getchar();
 		return 1;
 	}
 	fprintf(f, "%s", string);
 	fclose(f);
-	printf("ok\n");
-	system("pause");
+	printf("ok");
+	getchar();
 	return 0;
 }
