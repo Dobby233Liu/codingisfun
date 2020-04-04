@@ -78,17 +78,27 @@ void defineBText(){
 	
 	blueText[21] = "";
 	blueText[22] = "";
-	blueText[23] = "Beginning dump of physical memory";
+	blueText[23] = "Collecting data for crash dump ";
+	blueText[24] = "Initalizing disk for crash dump ";
+	blueText[25] = "Beginning dump of physical memory.";
+	blueText[26] = "Dumping physical memory to disk:   ";
+	// TODO
+	// Collecting data for crash dump (...)
+	// Initalizing disk for crash dump (...)
+	// Beginning dump of physical memory.
+	// Dumping physical memory to disk:   (percent)
 	
 	// Physical memory dump complete.
 	// Contact your system administrator or technical support group for further
 	// assistance.
 	
-	blueTextAfterDump[0] = "Physical memory dump complete.";
+	blueTextAfterDump[0] = "Physical memory dump complete.   ";
 	blueTextAfterDump[1] = "Contact your system administrator or technical support group for further";
 	blueTextAfterDump[2] = "assistance.";
+	blueTextAfterDump[3] = "                                      "; // empty "Dumping ..."
 }
 
+void TextOutTyper(HDC hdc, int baseX, int y, LPCSTR lpchText, int cchText, int fontWidth, int delay);
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 	PAINTSTRUCT ps;
 	if (message == WM_CREATE){
@@ -104,31 +114,38 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		HDC hDC2 = BeginPaint( hwnd, &ps ) ;
 		hFont=CreateFont(20,10,0,0,FW_NORMAL,false,false,false,
 				ANSI_CHARSET,OUT_DEVICE_PRECIS,
-				CLIP_CHARACTER_PRECIS,DEFAULT_QUALITY,
+				CLIP_CHARACTER_PRECIS,DRAFT_QUALITY/**sassy vga-style**/,
 				FF_MODERN,"Consolas");
 		SetTextColor(hDC2, RGB(255, 255, 255));
 		SetBkMode(hDC2, TRANSPARENT);
+		SetBkColor(hDC2, RGB(0,0,130));
 		SelectObject(hDC2, hFont);
-		TextOut(hDC2, 0, 10, blueText[0], strlen(blueText[0]));
+		TextOutTyper(hDC2, 0, 10, blueText[0], strlen(blueText[0]), 10, 10);
 		for (int i = 1; i < (sizeof(blueText) / sizeof(blueText[i]) - 1); i++){
-			TextOut(hDC2, 0, i * 20 + (i == 1 ? 10 : 0), blueText[i], strlen(blueText[i]));
+			TextOutTyper(hDC2, 0, i * 20 + (i == 1 ? 10 : 0), blueText[i], strlen(blueText[i]), 10, 10);
 			Sleep(50);
 		}
 		for (int i = 0; i < 90; i++){ // toby-ish hardcode
 			DoEvents();
 		}
-		TextOut(hDC2, 0, 23 * 20, blueText[23], strlen(blueText[23]));
-		for (int i = 0; i < 2000 * 10000; i++){
+		TextOutTyper(hDC2, 0, 23 * 20, blueText[23], strlen(blueText[23]), 10, 10);
+		for (int i = 0; i < 2000 * 6000; i++){
 			DoEvents();
 		}
 		for (int i = 0; i < (sizeof(blueTextAfterDump) / sizeof(blueTextAfterDump[i])); i++){
-			TextOut(hDC2, 0, i * 20 + 24 * 20, blueTextAfterDump[i], strlen(blueTextAfterDump[i]));
+			if(i==0) {
+				SetBkMode(hDC2, OPAQUE); // hack
+			}
+			TextOutTyper(hDC2, 0, i * 20 + 23 * 20, blueTextAfterDump[i], strlen(blueTextAfterDump[i]), 10, 10);
+			if(i==0) {
+				SetBkMode(hDC2, TRANSPARENT);
+			}
 			Sleep(50);
 		}
-		// TextOut(hDC2, 0, 30, blueText2, strlen(blueText2));
+		// TextOutTyper(hDC2, 0, 30, blueText2, strlen(blueText2), 10, 10);
 		EndPaint( hwnd, &ps ) ;
 		stageComplete = true;
-		for (int i = 0; i < 4000 * 10000; i++){
+		for (int i = 0; i < 4000 * 3000/**12000000**/; i++){
 			DoEvents();
 		}
 		SendMessage(hWnd, WM_CLOSE, NULL, NULL);
@@ -216,4 +233,16 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hPrevInstance,
         DispatchMessage(&msg);  
     }
     return msg.wParam;
+}
+
+void TextOutTyper(HDC hdc, int baseX, int y, LPCSTR lpchText, int cchText, int fontWidth, int delay){
+	int curXPos = baseX;
+	int delay2 = (delay / 2) * 100;
+	for(int z = 0; z < (cchText + 1); z++){
+		char myChar[1];
+		myChar[0] = lpchText[z];
+		TextOut(hdc, curXPos, y, myChar, 1);
+		curXPos = curXPos + fontWidth;
+		for(int m = 0; m < delay2; m++) DoEvents();
+	}
 }

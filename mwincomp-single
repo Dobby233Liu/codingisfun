@@ -1,2 +1,2 @@
 #!/bin/sh
-gcc -o $2 $1 -mwindows
+gcc -o $2 $1 -mwindows -O2
